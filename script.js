@@ -40,7 +40,6 @@ window.onload = function() {
     };
   
     window.addEventListener("sinkshipLoaded", function() {
-      sinkship.init();
       sinkship.createHeader();
       sinkship.createMain();
       sinkship.createFooter();
