@@ -5,10 +5,11 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
   }
   
-  html {
+   /* html {
     height: 100%;
     background-image: linear-gradient(to right, #3ab5b0 0%, #3d99be 31%, #56317a 100%);
   }
+  */
 
   body {
     display: flex;
