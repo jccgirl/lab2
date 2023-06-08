@@ -33,10 +33,20 @@ const sinkship = {
     const main = document.createElement("main");
     const limiter = this.makeLimiter();
     const div = document.createElement("div");
-    div.textContent = "Tessstttt";
+    div.classList.add("controls");
 
-    limiter.appendChild(div);
+    const fieldsDiv = this.makeDiv("fields");
+    const playerfield = this.makeDiv("field");
+    playerfield.id = "playerfield";
+    const computerfield = this.makeDiv("field");
+    computerfield.id = "computerfield";
+
+    fieldsDiv.appendChild(playerfield);
+    fieldsDiv.appendChild(computerfield);
+    
     main.appendChild(limiter);
+    limiter.appendChild(div);
+    limiter.appendChild(fieldsDiv);
 
     return main;
   },
@@ -58,4 +68,10 @@ const sinkship = {
     limiter.classList.add("limiter");
     return limiter;
   },
+
+  makeDiv(className) {
+    const div = document.createElement("div");
+    div.className = className;
+    return div;
+  }
 };
