@@ -22,8 +22,8 @@ const sinkship = {
     const paragraph = document.createElement("p");
     paragraph.textContent = "by Jasmin Saleh";
 
-    header.appendChild(heading);
-    header.appendChild(paragraph);
+    limiter.appendChild(heading);
+    limiter.appendChild(paragraph);
     header.appendChild(limiter);
 
     return header;
@@ -32,6 +32,10 @@ const sinkship = {
   makeMain() {
     const main = document.createElement("main");
     const limiter = this.makeLimiter();
+    const div = document.createElement("div");
+    div.textContent = "Tessstttt";
+
+    limiter.appendChild(div);
     main.appendChild(limiter);
 
     return main;
@@ -51,8 +55,7 @@ const sinkship = {
 
   makeLimiter() {
     const limiter = document.createElement("div");
-    limiter.className = "limiter";
+    limiter.classList.add("limiter");
     return limiter;
   },
-
 };
