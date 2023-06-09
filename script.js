@@ -41,6 +41,9 @@ const sinkship = {
     const computerfield = this.makeDiv("field");
     computerfield.id = "computerfield";
 
+    this.createCells(playerfield, 100);
+    this.createCells(computerfield, 100);
+
     fieldsDiv.appendChild(playerfield);
     fieldsDiv.appendChild(computerfield);
     
@@ -73,5 +76,14 @@ const sinkship = {
     const div = document.createElement("div");
     div.className = className;
     return div;
+  },
+
+  createCells(field, count) {
+    for (let i = 0; i < count; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      field.appendChild(cell);
+    }
   }
+
 };

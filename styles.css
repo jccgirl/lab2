@@ -87,3 +87,12 @@
   flex-shrink: 0;
   flex-grow: 0;
 }
+
+.cell {
+  border: 1px solid black;
+  width: calc(10% - 2px);
+  height: calc(10% - 2px);
+  float: left;
+  background-image: url("images/backgrounds.svg");
+  background-size: 500% 400%;
+}
