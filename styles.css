@@ -5,11 +5,11 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
   }
   
-   /* html {
+   html {
     height: 100%;
     background-image: linear-gradient(to right, #3ab5b0 0%, #3d99be 31%, #56317a 100%);
   }
-  */
+  
 
   body {
     display: flex;
@@ -31,8 +31,8 @@
 
   main {
     flex-grow: 1; 
-    background-color: rgba(0, 0, 0, 0.5);
-    background-color: red;
+    /*background-color: rgba(0, 0, 0, 0.5);
+    background-color: red; */
   }
   
   footer {
@@ -95,4 +95,13 @@
   float: left;
   background-image: url("images/backgrounds.svg");
   background-size: 500% 400%;
+}
+
+button {
+  margin: 1em auto;
+  border: 2px solid black;    
+  border-radius: 0.75em;
+  background-color: white;
+  padding: 0.5em 5em;
+  display: block;
 }

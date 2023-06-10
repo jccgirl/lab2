@@ -1,7 +1,6 @@
 window.addEventListener("load", () => sinkship.init());
 playerfield = [];
 computerfield =[];
-
 const sinkship = {
   init() {
     const body = document.body;
@@ -42,6 +41,7 @@ const sinkship = {
     playerfield.id = "playerfield";
     const computerfield = this.makeDiv("field");
     computerfield.id = "computerfield";
+    const controlsDiv = this.makeControls();
 
     this.createCells(playerfield);
     this.createCells(computerfield);
@@ -50,6 +50,7 @@ const sinkship = {
     fieldsDiv.appendChild(computerfield);
     
     main.appendChild(limiter);
+    limiter.appendChild(controlsDiv);
     limiter.appendChild(div);
     limiter.appendChild(fieldsDiv);
 
@@ -83,9 +84,9 @@ const sinkship = {
   createCells(field) {
     const cells = [];
 
-    for (let y = 0; y < 10; y++) {
+    for (let x = 0; x < 10; x++) {
     const row = [];
-      for (let x = 0; x < 10; x++) {
+      for (let y = 0; y < 10; y++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       field.appendChild(cell);
@@ -94,6 +95,19 @@ const sinkship = {
     cells[x] = row;
   }
   return cells;
-}
+},
+
+  makeControls() {
+    const div = this.makeDiv("controls");
+    const buildButton = document.createElement("button");
+    buildButton.textContent = "Build";
+    const playButton = document.createElement("button");
+    playButton.textContent = "Play";
+
+    div.appendChild(buildButton);
+    div.appendChild(playButton);
+    
+    return div;
+},
 
 };
