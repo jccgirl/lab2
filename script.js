@@ -117,17 +117,19 @@ const sinkship = {
 },
 
   buildMenu() {
-    const div = document.createElement("div")
+    const div = document.createElement("div");
+    div.className = "field";
+    div.id = "computerfield";    
+    
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const tableRow = document.createElement("tr");
 
-    tableRow.appendChild(makeTableHeader("Zahl"));
-    tableRow.appendChild(makeTableHeader(""));
-    tableRow.appendChild(makeTableHeader("Typ"));
-    tableRow.appendChild(makeTableHeader("Grösse"));
+    tableRow.appendChild(this.makeTableHeader("Zahl"));
+    tableRow.appendChild(this.makeTableHeader(""));
+    tableRow.appendChild(this.makeTableHeader("Typ"));
+    tableRow.appendChild(this.makeTableHeader("Grösse"));
     
-    table.appendChild(field);
     table.appendChild(thead);
     thead.appendChild(tableRow);
     div.appendChild(table);
