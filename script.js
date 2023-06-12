@@ -39,12 +39,12 @@ const sinkship = {
     const fieldsDiv = this.makeDiv("fields");
     const playerfield = this.makeDiv("field");
     playerfield.id = "playerfield";
-    const computerfield = this.makeDiv("field");
+    const computerfield = this.buildMenu("field");
     computerfield.id = "computerfield";
     const controlsDiv = this.makeControls();
 
     this.createCells(playerfield);
-    this.createCells(computerfield);
+    //this.createCells(computerfield);
 
     fieldsDiv.appendChild(playerfield);
     fieldsDiv.appendChild(computerfield);
@@ -109,5 +109,32 @@ const sinkship = {
     
     return div;
 },
+
+  makeTableHeader(textContent) {
+  const tableHeader = document.createElement("th");
+  tableHeader.textContent = textContent;
+  return tableHeader;  
+},
+
+  buildMenu() {
+    const div = document.createElement("div")
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tableRow = document.createElement("tr");
+
+    tableRow.appendChild(makeTableHeader("Zahl"));
+    tableRow.appendChild(makeTableHeader(""));
+    tableRow.appendChild(makeTableHeader("Typ"));
+    tableRow.appendChild(makeTableHeader("Grösse"));
+    
+    table.appendChild(field);
+    table.appendChild(thead);
+    thead.appendChild(tableRow);
+    div.appendChild(table);
+    
+    return div;
+
+  }
+
 
 };
