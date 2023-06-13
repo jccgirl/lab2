@@ -26,13 +26,11 @@
   header {
     height: 10%; 
     padding: 3px;
-    background-color: green;
   }
 
   main {
     flex-grow: 1; 
-    /*background-color: rgba(0, 0, 0, 0.5);
-    background-color: red; */
+    background-color: rgba(0, 0, 0, 0.5);
   }
   
   footer {
@@ -42,7 +40,6 @@
     right: 0;
     padding: 10px;
     flex-grow: 0; 
-    background-color: blue;
   }
 
 
