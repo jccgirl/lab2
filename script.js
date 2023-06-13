@@ -127,15 +127,47 @@ const sinkship = {
 
     tableRow.appendChild(this.makeTableHeader("Zahl"));
     tableRow.appendChild(this.makeTableHeader(""));
+    tableRow.appendChild(this.makeTableHeader(""));
     tableRow.appendChild(this.makeTableHeader("Typ"));
     tableRow.appendChild(this.makeTableHeader("Grösse"));
+
+    const tbody = document.createElement("tbody");
+
+    const row1 = this.createTableRow(["1", "","", "Schlachtschiff", "5"], "schlachtschiff");
+    const row2 = this.createTableRow(["2", "","", "Kreuzer", "4"], "kreuzer");
+    const row3 = this.createTableRow(["3", "","", "Zerstörer", "3"], "zerstörer");
+    const row4 = this.createTableRow(["4", "","", "U-Boot", "2"], "uboot");
+
+  
+    tbody.appendChild(row1);
+    tbody.appendChild(row2);
+    tbody.appendChild(row3);
+    tbody.appendChild(row4);
     
     table.appendChild(thead);
     thead.appendChild(tableRow);
+    table.appendChild(tbody);
     div.appendChild(table);
     
     return div;
 
+  },
+
+  createTableRow(cellContents, shipType) {
+    const row = document.createElement("tr");
+    
+    cellContents.forEach((content, index) => {
+      const cell = document.createElement("td");
+      cell.textContent = content;
+
+      if (index === 1 || index === 2) {
+        cell.classList.add(shipType, index === 1 ? "hori" : "verti");
+      }
+
+      row.appendChild(cell);
+    });
+    
+    return row;
   }
 
 

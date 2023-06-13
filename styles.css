@@ -105,3 +105,69 @@ button {
   padding: 0.5em 5em;
   display: block;
 }
+
+table {
+  margin: 2em;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+
+td.centered {
+  text-align: center;
+}
+
+td:empty {
+  background-image: url("images/backgrounds.svg");
+  background-size: 500% 400%;
+  width: 32px;
+  height: 32px;
+}
+
+td.schlachtschiff.hori {
+  background-image: url("images/backgrounds.svg");
+  background-position: 0 -200%;
+}
+
+td.schlachtschiff.verti {
+  background-image: url("images/backgrounds.svg");
+  background-position: 0 -300%;
+}
+
+td:empty:hover {
+  background-color: orange;
+}
+
+td.kreuzer.hori {
+  background-image: url("images/backgrounds.svg");
+  background-position: -100% -200%;
+}
+
+td.kreuzer.verti {
+  background-image: url("images/backgrounds.svg");
+  background-position: -100% -300%;
+}
+
+td.zerstörer.hori {
+  background-image: url("images/backgrounds.svg");
+  background-position: -200% -200%;
+}
+
+td.zerstörer.verti {
+  background-image: url("images/backgrounds.svg");
+  background-position: -200% -300%;
+}
+
+
+td.uboot.hori {
+  background-image: url("images/backgrounds.svg");
+  background-position: -300% -200%;
+}
+
+td.uboot.verti {
+  background-image: url("images/backgrounds.svg");
+  background-position: -300% -300%;
+}
