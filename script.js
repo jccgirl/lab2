@@ -161,11 +161,16 @@ const sinkship = {
     cellContents.forEach((content, index) => {
       const cell = document.createElement("td");
       cell.textContent = content;
-
       if (index === 1 || index === 2) {
         cell.classList.add(shipType, index === 1 ? "hori" : "verti");
+    //Adding the logic for the Eventhandler when clicking on the images in the table 
+        cell.addEventListener("click", () => {
+          const typ = row.childNodes[3].textContent;
+          const grösse = row.childNodes[4].textContent; 
+          const orientation = event.currentTarget.classList.contains("hori") ? "h" : "v";
+          console.log(`Typ: ${typ}, Grösse: ${grösse}, Orientation: ${orientation}`);
+        });
       }
-
       row.appendChild(cell);
     });
     
