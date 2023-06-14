@@ -1,7 +1,9 @@
 window.addEventListener("load", () => sinkship.init());
-playerfield = [];
-computerfield =[];
+
 const sinkship = {
+  playerfield:[],
+  computerfield:[],
+
   init() {
     const body = document.body;
     const content = document.createElement("div");
@@ -37,16 +39,16 @@ const sinkship = {
     div.classList.add("controls");
 
     const fieldsDiv = this.makeDiv("fields");
-    const playerfield = this.makeDiv("field");
-    playerfield.id = "playerfield";
+    this.playerfield = this.makeDiv("field");
+    this.playerfield.id = "playerfield";
     const computerfield = this.buildMenu("field");
     computerfield.id = "computerfield";
     const controlsDiv = this.makeControls();
 
-    this.createCells(playerfield);
+    this.createCells(this.playerfield);
     //this.createCells(computerfield);
 
-    fieldsDiv.appendChild(playerfield);
+    fieldsDiv.appendChild(this.playerfield);
     fieldsDiv.appendChild(computerfield);
     
     main.appendChild(limiter);
@@ -81,7 +83,7 @@ const sinkship = {
     return div;
   },
 
-  createCells(field) {
+  createCells(playerfield) {
     const cells = [];
 
     for (let x = 0; x < 10; x++) {
@@ -89,7 +91,7 @@ const sinkship = {
       for (let y = 0; y < 10; y++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
-      field.appendChild(cell);
+      playerfield.appendChild(cell);
       row[y] = cell;
     }
     cells[x] = row;
@@ -168,6 +170,11 @@ const sinkship = {
     });
     
     return row;
+  },
+
+  showPositions(Grösse, shipType) {
+    this.playerfield[0][0].style.backgroundColor = "green";
+    
   }
 
 
