@@ -167,3 +167,78 @@ td.uboot.verti {
   background-image: url("images/backgrounds.svg");
   background-position: -300% -300%;
 }
+.text-span {
+  font-size: 30px;
+  color: #000; 
+  display: inline-block;
+  border-radius: 50px;
+  border: 8px solid orange;
+  padding: 5px; 
+  margin: 5px auto; 
+}
+ 
+
+.sunkShip { 
+  background-image: url(images/backgrounds.svg);
+  background-position: -200% 0%;
+  background-color: darkorange;}
+  
+.water {
+  background-image: none;
+  background-image: url(images/backgrounds.svg);
+  background-color: lightblue;
+  background-position: -100% 0;
+}
+.usable {
+  background-color: rgb(161, 95, 95);
+  background-image: none; 
+}
+.ship {
+  background-image: none;
+  background-image: url(images/backgrounds.svg);
+  background-color: lightblue;
+  background-position: -100% -100%;
+}
+
+.leftShip { 
+  background-image: none;
+  background-image: url(images/backgrounds.svg);
+  background-color: lightblue;
+  background-position: 0 -100%;
+  }
+  
+.rightShip { 
+  background-image: none;
+  background-image: url(images/backgrounds.svg);
+  background-color: lightblue;
+  background-position: -200% -100%;
+  }
+  
+.topShip { 
+  background-image: none;
+  background-image: url(images/backgrounds.svg);
+  background-color: lightblue;
+  background-position: -400% 0;
+  }
+
+.bottomShip { 
+  background-image: none;
+  background-image: url(images/backgrounds.svg);
+  background-color: lightblue;
+  background-position: -400% -200%;
+  }
+.hitWater { 
+    background-image: none;
+    background-image: url(images/backgrounds.svg);
+    background-position: -100% 0%;
+    background-color: rgb(96, 245, 76);
+    }
+  
+.hitShip { 
+  background-image: none;
+  background-image: url(images/backgrounds.svg);
+  background-position: -200% 0%;
+  background-color: rgb(179, 13, 14);
+  }     
+
+ 
