@@ -1,5 +1,8 @@
 window.addEventListener("load", () => sinkship.init()); 
 const sinkship = { 
+  url: "https://www2.hs-esslingen.de/~melcher/internet-technologien/sinkship/",
+  token: 0,
+  responseX: "",  
   playerfield:[],
   computerfield:[], 
   placeAblePos : new Array(100).fill(-1),  
@@ -10,7 +13,7 @@ const sinkship = {
   GameFinshed: false, 
   ComputerWater: false, 
   turn: 1,
-  winer: "",
+  winner: "",
   shipsNum: [1,2,3,4],  
   shipsPlaced:0,
   
@@ -254,7 +257,8 @@ makeControls() {
   });
   
   playButton.addEventListener("click", () => {  
-    this.showMessage("Let Play the Game ", "brown");          
+   // this.showMessage("Let Play the Game ", "brown"); 
+    this.remote();         
     this.readyToplay();
     this.GameStart = true;
     const oldcells = document.querySelectorAll("#playerfield .cell");
@@ -515,33 +519,33 @@ updateClickablity(Cells){
     cell.removeEventListener("click", cell.clickHandler);
   });
 },
-shipHit(at, filed, turn){  
-  if (filed[at].classList.contains("water")) {
-    filed[at].classList.remove("water");
+shipHit(at, filled, turn){  
+  if (filled[at].classList.contains("water")) {
+    filled[at].classList.remove("water");
   } 
   if(turn === 2){
     if(this.placeAblePos[at] >= 2 && this.placeAblePos[at] <= 5){
-      filed[at].classList.add("hitShip");
+      filled[at].classList.add("hitShip");
       this.placeAblePos[at] = -5;
       return true;
     }else { 
-      filed[at].classList.add("hitWater");
+      filled[at].classList.add("hitWater");
       return false;
     }
   }else{ 
     if(this.placeAblePosCom[at] >= 2 && this.placeAblePosCom[at] <= 5){      
-      filed[at].classList.add("hitShip");
+      filled[at].classList.add("hitShip");
       this.placeAblePosCom[at] = -10;
       return true;
     }    
     else{       
-      filed[at].classList.add("hitWater");
+      filled[at].classList.add("hitWater");
       this.placeAblePosCom[at] = 1; 
       return false;   
     } 
   }
 },
-winerChecker(turn){ 
+winnerChecker(turn){ 
   for(let i = 0; i < 100; i++){ 
     if(turn===2){
       if(this.placeAblePos[i] >= 2 && this.placeAblePos[i] <= 5) 
@@ -552,69 +556,116 @@ winerChecker(turn){
       {  return false;}
     }
   }
-  if(turn === 2) this.winer = "Player";
-  if(turn === 1) this.winer = "Computer"; 
+  if(turn === 2) this.winner = "Player";
+  if(turn === 1) this.winner = "Computer"; 
   this.GameFinshed = true;  
     return true;
 },
 isContain(grid, that){
   for(let i = 0; i < grid.length; i++){
-    
 }
 },
- 
-startPlaying(at) { 
-  if(this.winerChecker(this.turn)) 
-  {this.showMessage((this.winer+" won the Game"), "green"); return;}
-  const fieldCom = document.querySelectorAll("#computerfield .cell");
-  const fieldPly = document.querySelectorAll("#playerfield .cell");
-  if (this.turn === 1) {
-    if (!this.shipHit(at, fieldCom, this.turn)) {
-      this.turn = 2;
-      this.showMessage("It's Server's turn. I hit the water.", "red");
-    }
+
+//Server Communication
+async startPlaying(at) { 
+  const y = at%10
+  const x = (at -y)/10
+  //const response = await this.fetchAndDecode("?request=shoot&x="+y+"&y="+x)
+  console.log("click: x="+y+" y="+x)
+  result = await this.shoot(at);
+  this.readyToplay();
+  // if (this.turn === 1) {
+  //   if (!this.shipHit(at, fieldCom, this.turn)) {
+  //         this.turn = 2;
+  //         this.showMessage();
+  //      }
+  //  }
+},
+async shoot(at, cellList) {
+  const y = at%10
+  const x = (at -y)/10
+  const response = await this.fetchAndDecode("?request=shoot&x="+y+"&y="+x+"&token="+this.token)
+  switch (response.result) {
+    case 0:
+      cellList[at].classList.add("hitWater");
+      break;
+    case 1:
+      cellList[at].classList.add("hitShip");
+      break;
+    case 2:
+      cellList[at].classList.add("sunkShip");
+      break;
+    default:
+      break;
   }
-
-  if (this.turn === 2) {
-    let still = true;
-
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-    (async () => {
-      while (still) {
-        await delay(2000);
-        const randomAt = Math.floor(Math.random() * 100);
-
-        if (!this.shipHit(randomAt, fieldPly, 2)) {
-          still = false;
-          this.turn = 1;
-          this.showMessage("It's Player's turn. I hit the water.", "red");
-        } else {
-          this.showMessage("It's Server's turn. I hit the Ship.", "green");
-        }
-      }
-    })();
-  }
+  this.showMessage(response.statusText);
+  return response;
+},
+  
+async remote() {
+  const request = `?request=start&userid=jasait02`;
+  const response = await this.fetchAndDecode(request);
+  console.log(response)
+  this.token = response.token;
+  console.log(this.token)
+  this.showMessage(response.statusText);
 },
 
-/*remoteLogic() {
-  url: "https://www2.hs-esslingen.de/~melcher/internet-technologien/sinkship/",
-  token: 0,
-  responseX: "",
-  async init() {
-    const request = `?request=start&userid=jasait02`;
-    const response = await this.fetchAndDecode(request);
-    this.token = response.resp.token;
-    document.getElementById("infoTextField").textContent =
-      response.resp.statusText;
-  },
-  async fetchAndDecode(request) {
-    const resp = await fetch(`${this.url}` + `${request}`).then((response) =>
-      response.json()
-    );
+async getshotcoordinates() {
+  const request_xy = "?request=getshotcoordinates&token=&token="+this.token;
+  const response_xy = await this.fetchAndDecode(request_xy);
+  this.showMessage(response_xy.statusText);
+  return response_xy;
+},
 
-    return { resp };
-  },
-},*/
+async sendingresult() {
+  const request_result = "?request=sendingresult&token="+this.token+"&result="+result;
+  const response_result = await this.fetchAndDecode(request_result);
+  this.showMessage(response_result.statusText);
+  return response_result;
+},
+
+async fetchAndDecode(request) {
+  let resp 
+  await fetch(`${this.url}` + `${request}`).then(async function(response){
+    await response.json().then(text=> resp=text)
+    }
+  );
+  return resp;
+},
+
+// startPlaying(at) { 
+//   if(this.winnerChecker(this.turn)) 
+//   {this.showMessage((this.winner+" won the Game"), "green"); return;}
+//   const fieldCom = document.querySelectorAll("#computerfield .cell");
+//   const fieldPly = document.querySelectorAll("#playerfield .cell");
+//   if (this.turn === 1) {
+//     if (!this.shipHit(at, fieldCom, this.turn)) {
+//       this.turn = 2;
+//       this.showMessage("It's Server's turn. I hit the water.", "red");
+//     }
+//   }
+
+//   if (this.turn === 2) {
+//     let still = true;
+
+//     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+//     (async () => {
+//       while (still) {
+//         await delay(2000);
+//         const randomAt = Math.floor(Math.random() * 100);
+
+//         if (!this.shipHit(randomAt, fieldPly, 2)) {
+//           still = false;
+//           this.turn = 1;
+//           this.showMessage("It's Player's turn. I hit the water.", "red");
+//         } else {
+//           this.showMessage("It's Server's turn. I hit the Ship.", "green");
+//         }
+//       }
+//     })();
+//   }
+// },
 
 };
