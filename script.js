@@ -581,24 +581,26 @@ async startPlaying(at) {
   //      }
   //  }
 },
-async shoot(at, cellList) {
+async shoot(at) {
+  const filled = document.querySelectorAll("#computerfield .cell");
   const y = at%10
   const x = (at -y)/10
   const response = await this.fetchAndDecode("?request=shoot&x="+y+"&y="+x+"&token="+this.token)
   switch (response.result) {
     case 0:
-      cellList[at].classList.add("hitWater");
+      filled[at].classList.add("hitWater");
       break;
     case 1:
-      cellList[at].classList.add("hitShip");
+      filled[at].classList.add("hitShip");
       break;
     case 2:
-      cellList[at].classList.add("sunkShip");
+      filled[at].classList.add("sunkShip");
       break;
     default:
       break;
   }
   this.showMessage(response.statusText);
+  console.log(response)
   return response;
 },
   
