@@ -632,7 +632,7 @@ async getshotcoordinates() {
     cell.classList.add('hitShip');
   }
   await sinkship.sendingresult(statusField);
-  if (parseInt(response_xy.state) === 2) {
+  if (parseInt(response_xy.state) == 2) {
     await sinkship.getshotcoordinates();
   }
 
@@ -661,9 +661,12 @@ async sendingresult(result) {
   const response_result = await this.fetchAndDecode(request_result);
   this.showMessage(response_result.statusText);
   console.log(response_result);
-  if (parseInt(response_result.state == 2)) {
-    //server says we need t9o take again shoot coordinates
-    await sinkship.getshotcoordinates();
+  while (parseInt(response_result.state) === 2) {
+    await this.getshotcoordinates();
+    request_result = `?request=sendingresult&token=${this.token}&result=${0}`;
+    response_result = await this.fetchAndDecode(request_result);
+    this.showMessage(response_result.statusText);
+    console.log(response_result);
   }
   return response_result;
 },
