@@ -567,11 +567,11 @@ isContain(grid, that){
 },
 
 //Server Communication
-async startPlaying(at) { 
-  const y = at%10
-  const x = (at -y)/10
+async startPlaying(at) {
+  const y = at % 10;
+  const x = (at - y) / 10;
   //const response = await this.fetchAndDecode("?request=shoot&x="+y+"&y="+x)
-  console.log("click: x="+y+" y="+x)
+  console.log('click: x=' + y + ' y=' + x);
   result = await this.shoot(at);
   this.readyToplay();
   // if (this.turn === 1) {
@@ -582,92 +582,98 @@ async startPlaying(at) {
   //  }
 },
 async shoot(at) {
-  const filled = document.querySelectorAll("#computerfield .cell");
-  const y = at%10
-  const x = (at -y)/10
-  const response = await this.fetchAndDecode("?request=shoot&x="+y+"&y="+x+"&token="+this.token)
+  const filled = document.querySelectorAll('#computerfield .cell');
+  const y = at % 10;
+  const x = (at - y) / 10;
+  const response = await this.fetchAndDecode('?request=shoot&x=' + y + '&y=' + x + '&token=' + this.token);
   switch (response.result) {
     case 0:
-      filled[at].classList.add("hitWater");
+      filled[at].classList.add('hitWater');
+      sinkship.getshotcoordinates();
       break;
     case 1:
-      filled[at].classList.add("hitShip");
+      filled[at].classList.add('hitShip');
       break;
     case 2:
-      filled[at].classList.add("sunkShip");
+      filled[at].classList.add('sunkShip');
       break;
     default:
       break;
   }
   this.showMessage(response.statusText);
-  console.log(response)
+  console.log(response);
   return response;
 },
-  
+
 async remote() {
   const request = `?request=start&userid=jasait02`;
   const response = await this.fetchAndDecode(request);
-  console.log(response)
+  console.log(response);
   this.token = response.token;
-  console.log(this.token)
+  console.log(this.token);
   this.showMessage(response.statusText);
 },
 
 async getshotcoordinates() {
-  const request_xy = "?request=getshotcoordinates&token=&token="+this.token;
+  const request_xy = '?request=getshotcoordinates&token=' + this.token;
   const response_xy = await this.fetchAndDecode(request_xy);
   this.showMessage(response_xy.statusText);
+  console.log('xServer:' + response_xy.x + 'yServer:' + response_xy.y);
+  let playfield = document.querySelector('#playerfield');
+  let playerfield_elements = this.playerfield.querySelectorAll('.cell');
+  let childnumber = parseInt(response_xy.y) * 10 + parseInt(response_xy.x);
+  let cell = playerfield_elements[childnumber];
+  let statusField = sinkship.checkCellIsAlreadyUsed(cell);
+  sinkship.sendingresult(statusField);
+ 
+  if (!statusField) {
+    cell.classList.add('hitWater');
+  } else {
+    cell.classList.add('hitShip');
+  }
+  await sinkship.sendingresult(statusField);
+  if (parseInt(response_xy.state) === 2) {
+    await sinkship.getshotcoordinates();
+  }
+
+  console.log(cell);
   return response_xy;
 },
 
-async sendingresult() {
-  const request_result = "?request=sendingresult&token="+this.token+"&result="+result;
+checkCellIsAlreadyUsed(currentCell) {
+  return (
+    currentCell.classList.contains('ship') ||
+    currentCell.classList.contains('rightShip') ||
+    currentCell.classList.contains('leftShip') ||
+    currentCell.classList.contains('topShip') ||
+    currentCell.classList.contains('bottomShip')
+  );
+},
+
+async sendingresult(result) {
+  console.log(result);
+  let request_result = ``;
+  if (result) {
+    request_result = `?request=sendingresult&token=${this.token}&result=${1}`;
+  } else {
+    request_result = `?request=sendingresult&token=${this.token}&result=${0}`;
+  }
   const response_result = await this.fetchAndDecode(request_result);
   this.showMessage(response_result.statusText);
+  console.log(response_result);
+  if (parseInt(response_result.state == 2)) {
+    //server says we need t9o take again shoot coordinates
+    await sinkship.getshotcoordinates();
+  }
   return response_result;
 },
 
 async fetchAndDecode(request) {
-  let resp 
-  await fetch(`${this.url}` + `${request}`).then(async function(response){
-    await response.json().then(text=> resp=text)
-    }
-  );
+  let resp;
+  await fetch(`${this.url}` + `${request}`).then(async function(response) {
+    await response.json().then((text) => (resp = text));
+  });
   return resp;
-},
-
-// startPlaying(at) { 
-//   if(this.winnerChecker(this.turn)) 
-//   {this.showMessage((this.winner+" won the Game"), "green"); return;}
-//   const fieldCom = document.querySelectorAll("#computerfield .cell");
-//   const fieldPly = document.querySelectorAll("#playerfield .cell");
-//   if (this.turn === 1) {
-//     if (!this.shipHit(at, fieldCom, this.turn)) {
-//       this.turn = 2;
-//       this.showMessage("It's Server's turn. I hit the water.", "red");
-//     }
-//   }
-
-//   if (this.turn === 2) {
-//     let still = true;
-
-//     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-//     (async () => {
-//       while (still) {
-//         await delay(2000);
-//         const randomAt = Math.floor(Math.random() * 100);
-
-//         if (!this.shipHit(randomAt, fieldPly, 2)) {
-//           still = false;
-//           this.turn = 1;
-//           this.showMessage("It's Player's turn. I hit the water.", "red");
-//         } else {
-//           this.showMessage("It's Server's turn. I hit the Ship.", "green");
-//         }
-//       }
-//     })();
-//   }
-// },
-
+}
 };
+
